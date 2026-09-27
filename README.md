@@ -1,5 +1,5 @@
 
-# 🔮 Fejoe J S — Portfolio
+# 🔮Portfolio
 
 **An immersive, performance-driven personal portfolio built with React and native WebGL.** Designed to break away from standard templates using custom shaders, real-time particle physics, and extreme glassmorphism for a fluid, zero-gravity aesthetic.
 
