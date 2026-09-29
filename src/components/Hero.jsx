@@ -19,8 +19,8 @@ const Hero = () => {
         minHeight: { xs: 'auto', md: '100vh' },
         display: 'flex',
         alignItems: { xs: 'flex-start', md: 'center' },
-        pt: { xs: '120px', md: '160px' },
-        pb: { xs: '60px', md: '60px' },
+        pt: { xs: '90px', md: '160px' },
+        pb: { xs: '30px', md: '60px' },
         bgcolor: 'background.default',
         zIndex: 2,
       }}
@@ -40,7 +40,7 @@ const Hero = () => {
           display: 'grid',
           gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
           alignItems: 'center',
-          gap: { xs: '2rem', md: '4rem' },
+          gap: { xs: '1rem', md: '4rem' },
           zIndex: 2,
           transform: 'translateY(-10px)',
           textAlign: { xs: 'center', md: 'left' },
@@ -55,21 +55,21 @@ const Hero = () => {
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            gap: '1.25rem',
+            gap: { xs: '0.75rem', md: '1.25rem' },
             alignItems: { xs: 'center', md: 'flex-start' },
             order: { xs: 2, md: 1 },
           }}
         >
-          <Typography sx={{ letterSpacing: '2px', fontSize: '0.9rem', fontWeight: 600, color: 'primary.main', fontFamily: 'var(--font-mono)' }}>
+          <Typography sx={{ letterSpacing: '2px', fontSize: '0.85rem', fontWeight: 600, color: 'primary.main', fontFamily: 'var(--font-mono)' }}>
             {personalInfo.role.toUpperCase()}
           </Typography>
-          <Typography variant="h1" className="hero-title" sx={{ fontSize: { xs: '2.2rem', sm: '3rem', md: '4rem' }, fontWeight: 800, lineHeight: 1.1, m: 0 }}>
+          <Typography variant="h1" className="hero-title" sx={{ fontSize: { xs: '1.8rem', sm: '3rem', md: '4rem' }, fontWeight: 800, lineHeight: 1.1, m: 0 }}>
             Hi, I'm <Box component="span" sx={{ color: 'secondary.main' }}>Fejoe J S</Box>
           </Typography>
-          <Typography variant="h2" sx={{ fontSize: { xs: '1.2rem', sm: '1.5rem', md: '2rem' }, fontWeight: 600, lineHeight: 1.3, color: 'text.primary', m: 0 }}>
+          <Typography variant="h2" sx={{ fontSize: { xs: '1.1rem', sm: '1.5rem', md: '2rem' }, fontWeight: 600, lineHeight: 1.3, color: 'text.primary', m: 0 }}>
             Turning ideas into meaningful digital experiences.
           </Typography>
-          <Typography sx={{ fontSize: '1.1rem', maxWidth: '500px', lineHeight: 1.8, color: 'text.secondary', m: { xs: '0 auto', md: 0 } }}>
+          <Typography sx={{ fontSize: { xs: '0.95rem', md: '1.1rem' }, maxWidth: '500px', lineHeight: 1.6, color: 'text.secondary', m: { xs: '0 auto', md: 0 } }}>
             I'm a Full Stack Developer passionate about transforming ideas and real-world problems into responsive, functional, and user-focused applications.
           </Typography>
 
@@ -134,8 +134,8 @@ const Hero = () => {
         >
           <Box
             sx={{
-              width: { xs: '220px', sm: '280px', md: '350px' },
-              height: { xs: '220px', sm: '280px', md: '350px' },
+              width: { xs: '160px', sm: '280px', md: '350px' },
+              height: { xs: '160px', sm: '280px', md: '350px' },
               borderRadius: '16px',
               p: '4px',
               position: 'relative',
