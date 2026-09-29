@@ -16,11 +16,11 @@ const Hero = () => {
       component="section" 
       sx={{
         position: 'relative',
-        minHeight: '100vh',
+        minHeight: { xs: 'auto', md: '100vh' },
         display: 'flex',
-        alignItems: 'center',
-        overflow: 'hidden',
+        alignItems: { xs: 'flex-start', md: 'center' },
         pt: { xs: '120px', md: '160px' },
+        pb: { xs: '60px', md: '60px' },
         bgcolor: 'background.default',
         zIndex: 2,
       }}
