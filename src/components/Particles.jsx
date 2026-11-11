@@ -107,14 +107,27 @@ const Particles = ({
     const container = containerRef.current;
     if (!container) return;
 
-    const renderer = new Renderer({
-      dpr: pixelRatio,
-      depth: false,
-      alpha: true
-    });
-    const gl = renderer.gl;
+    let renderer, gl;
+    try {
+      renderer = new Renderer({
+        dpr: Math.min(pixelRatio, 2),
+        depth: false,
+        alpha: true
+      });
+      gl = renderer.gl;
+      if (!gl) return;
+    } catch {
+      return;
+    }
+
     container.appendChild(gl.canvas);
     gl.clearColor(0, 0, 0, 0);
+
+    const onContextLost = (e) => {
+      e.preventDefault();
+      gl.canvas.style.display = 'none';
+    };
+    gl.canvas.addEventListener('webglcontextlost', onContextLost);
 
     const camera = new Camera(gl, { fov: 15 });
     camera.position.set(0, 0, cameraDistance);

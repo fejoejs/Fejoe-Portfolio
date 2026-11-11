@@ -12,6 +12,8 @@ import Footer from './components/Footer';
 import Particles from './components/Particles';
 
 function App() {
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
   return (
     <>
       <div style={{ 
@@ -22,16 +24,14 @@ function App() {
         height: '100%', 
         zIndex: 0, 
         pointerEvents: 'none',
-        maskImage: 'radial-gradient(circle at center, transparent 20%, black 100%)',
-        WebkitMaskImage: 'radial-gradient(circle at center, transparent 20%, black 100%)'
       }}>
         <Particles
-          particleColors={['#00D9FF', '#6C2BFF', '#ffffff']}
-          particleCount={600}
-          particleSpread={20}
-          speed={0.2}
-          particleBaseSize={100}
-          moveParticlesOnHover={true}
+          particleColors={['#00D9FF', '#6C2BFF']}
+          particleCount={isMobile ? 50 : 120}
+          particleSpread={15}
+          speed={0.15}
+          particleBaseSize={8}
+          moveParticlesOnHover={!isMobile}
           alphaParticles={true}
           disableRotation={false}
         />

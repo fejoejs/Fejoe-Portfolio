@@ -150,21 +150,44 @@ const MoltenMetal = ({
     const container = containerRef.current;
     if (!container) return;
 
-    const renderer = new Renderer({
-      webgl: 2,
-      alpha: true,
-      premultipliedAlpha: true,
-      antialias: false,
-      dpr: Math.min(window.devicePixelRatio || 1, 2)
-    });
+    let renderer, gl;
+    try {
+      renderer = new Renderer({
+        webgl: 2,
+        alpha: true,
+        premultipliedAlpha: true,
+        antialias: false,
+        dpr: Math.min(window.devicePixelRatio || 1, 1.5)
+      });
+      gl = renderer.gl;
+    } catch {
+      try {
+        renderer = new Renderer({
+          webgl: 1,
+          alpha: true,
+          premultipliedAlpha: true,
+          antialias: false,
+          dpr: Math.min(window.devicePixelRatio || 1, 1.5)
+        });
+        gl = renderer.gl;
+      } catch {
+        return;
+      }
+    }
+    if (!gl) return;
 
-    const gl = renderer.gl;
     gl.clearColor(0, 0, 0, 0);
     const canvas = gl.canvas;
     canvas.style.width = '100%';
     canvas.style.height = '100%';
     canvas.style.display = 'block';
     container.appendChild(canvas);
+
+    const onContextLost = (e) => {
+      e.preventDefault();
+      canvas.style.display = 'none';
+    };
+    canvas.addEventListener('webglcontextlost', onContextLost);
 
     const geometry = new Triangle(gl);
     const program = new Program(gl, {
@@ -350,7 +373,22 @@ const MoltenMetal = ({
     lightMode
   ]);
 
-  return <div ref={containerRef} className={className} style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", overflow: "hidden", zIndex: 0 }} />;
+  return (
+    <div
+      ref={containerRef}
+      className={className}
+      style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        overflow: "hidden",
+        zIndex: 0,
+        background: 'radial-gradient(circle at 60% 30%, rgba(108, 43, 255, 0.18) 0%, rgba(0, 217, 255, 0.12) 40%, transparent 70%)'
+      }}
+    />
+  );
 };
 
 export default MoltenMetal;

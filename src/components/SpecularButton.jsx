@@ -12,22 +12,26 @@ const styles = `
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: none;
+  border: 1px solid rgba(0, 217, 255, 0.25);
   margin: 0;
   font-family: inherit;
   font-weight: 500;
   letter-spacing: 0.01em;
   line-height: 1;
   color: var(--sb-text-color);
-  background: color-mix(in srgb, var(--sb-tint) calc(var(--sb-tint-opacity) * 100%), transparent);
+  background: rgba(0, 217, 255, 0.04);
   border-radius: var(--sb-radius);
   backdrop-filter: blur(var(--sb-blur));
   -webkit-backdrop-filter: blur(var(--sb-blur));
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 8px 24px rgba(0,0,0,0.25);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 4px 16px rgba(0,0,0,0.25);
   cursor: pointer;
   outline: none;
-  transition: transform 0.15s ease;
+  transition: transform 0.15s ease, border-color 0.2s ease, background 0.2s ease;
   text-decoration: none;
+}
+.specular-button:hover {
+  border-color: rgba(0, 217, 255, 0.5);
+  background: rgba(0, 217, 255, 0.08);
 }
 .specular-button:active { transform: scale(0.97); }
 .specular-button:focus-visible { outline: 2px solid color-mix(in srgb, var(--sb-text-color) 60%, transparent); outline-offset: 3px; }
@@ -144,12 +148,36 @@ const SpecularButton = ({
     const fx = fxRef.current;
     if (!btn || !fx) return;
 
-    const dpr = window.devicePixelRatio || 1;
-    const renderer = new Renderer({ alpha: true, premultipliedAlpha: true, antialias: true, dpr });
-    const gl = renderer.gl;
+    // Skip creating 13 WebGL contexts on touch/mobile devices to prevent context exhaustion
+    const isTouch = typeof window !== 'undefined' && (
+      'ontouchstart' in window ||
+      navigator.maxTouchPoints > 0 ||
+      window.innerWidth < 768
+    );
+    if (isTouch) return;
+
+    let renderer, gl;
+    try {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      renderer = new Renderer({ alpha: true, premultipliedAlpha: true, antialias: true, dpr });
+      gl = renderer.gl;
+      if (!gl) return;
+    } catch {
+      return;
+    }
+
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
     gl.clearColor(0, 0, 0, 0);
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+
+    const onContextLost = (e) => {
+      e.preventDefault();
+      if (fx.contains(gl.canvas)) {
+        fx.removeChild(gl.canvas);
+      }
+    };
+    gl.canvas.addEventListener('webglcontextlost', onContextLost);
 
     const geometry = new Triangle(gl);
     if (geometry.attributes.uv) delete geometry.attributes.uv;
